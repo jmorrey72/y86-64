@@ -1,0 +1,49 @@
+0x0000: 30f00a00000000000000   | irmovq $10,%rax # Register storing how many blocks of data to sort.
+                               | # YOUR CODE HERE
+                               | 
+0x000a: 30f80800000000000000   | irmovq $0x8,%r8
+0x0014: 30f60100000000000000   | irmovq $1,%rsi
+                               | 
+0x001e:                        | outerloop:
+0x001e: 30f10000000000000000   |     irmovq $0,%rcx
+0x0028: 30f2a000000000000000   |     irmovq data,%rdx
+0x0032: 2007                   |     rrmovq %rax,%rdi
+0x0034: 6167                   |     subq %rsi,%rdi
+0x0036:                        | loop:
+0x0036: 50a20000000000000000   |     mrmovq (%rdx),%r10
+0x0040: 6082                   |     addq %r8,%rdx
+0x0042: 50b20000000000000000   |     mrmovq (%rdx),%r11
+0x004c: 20bc                   |     rrmovq %r11,%r12
+0x004e: 61ac                   |     subq %r10,%r12
+0x0050: 727200000000000000     |     jl sort
+0x0059: 6167                   |     subq %rsi,%rdi
+0x005b: 743600000000000000     | jne loop
+0x0064: 6061                   |     addq %rsi,%rcx
+0x0066: 6161                   |     subq %rsi,%rcx
+0x0068: 741e00000000000000     | jne outerloop
+                               |     
+0x0071: 00                     | halt
+                               |     
+0x0072:                        | sort:
+0x0072: 40a20000000000000000   |     rmmovq %r10,(%rdx)
+0x007c: 6182                   |     subq %r8,%rdx
+0x007e: 40b20000000000000000   |     rmmovq %r11,(%rdx)
+0x0088: 6082                   |     addq %r8,%rdx
+0x008a: 6061                   |     addq %rsi,%rcx
+0x008c: 6167                   |     subq %rsi,%rdi
+0x008e: 731e00000000000000     | je outerloop
+0x0097: 703600000000000000     | jmp loop
+                               | 
+0x00a0:                        | .align 8
+0x00a0:                        | data:
+0x00a0: 05                     | .quad 0x05
+0x00a8: 0a                     | .quad 0x0a
+0x00b0: 08                     | .quad 0x08
+0x00b8: 02                     | .quad 0x02
+0x00c0: 01                     | .quad 0x01
+0x00c8: 03                     | .quad 0x03
+0x00d0: 06                     | .quad 0x06
+0x00d8: 04                     | .quad 0x04
+0x00e0: 09                     | .quad 0x09
+0x00e8: 07                     | .quad 0x07
+                               | 
